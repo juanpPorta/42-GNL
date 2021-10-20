@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:48:04 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/13 18:20:06 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/20 19:26:53 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,50 +50,42 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-int	ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
-	while (s)
-	{
-		if ((unsigned char)*s != (unsigned char)c)
-			s++;
-		else
-		{
-			return (1);
-		}
-	}
+	int			i;
+	const char	*last;
+
+	last = s;
+	i = ft_strlen(s);
+	s += i;
+	while (s != last && c != *s)
+		s--;
+	if ((unsigned char)c == (unsigned char)*s)
+		return ((char *)s);
 	return (0);
 }
 
-size_t	ft_strlen_modif(const char *cadena)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	a;
-
-	a = 0;
-	while (cadena[a] != '\n')
-		a++;
-	return (a);
+	while (*s != '\0' && (unsigned char)c != *s)
+		s++;
+	if ((unsigned char)c == *s)
+		return ((char *)s);
+	return (0);
 }
 
-char	*getmyline(char *fd)
+char	*get_my_line(char *lineas, char *saved)
 {
-	static char	*linea;
-	int			contador;
-	int			i;
+	char	*pepe;
+	int		i;
 
-	if (!fd)
-	{
-		printf("no hay nada");
-		return (0);
-	}
-	contador = 0;
-	contador = ft_strlen_modif(fd);
-	printf("contador :%d\n", contador);
-	linea = malloc(sizeof(contador) * sizeof(char));
 	i = 0;
-	while (fd && i < contador)
+	pepe = malloc(sizeof(char) * BUFFER_SIZE);
+	while (lineas[i] != saved[0])
 	{
-		linea[i] = fd[i];
+		pepe[i] = lineas[i];
 		i++;
 	}
-	return (linea);
+	pepe[i] = '\0';
+	return (pepe);
 }
