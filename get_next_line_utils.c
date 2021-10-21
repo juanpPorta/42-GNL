@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:48:04 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/20 19:26:53 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/21 18:53:45 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ size_t	ft_strlen(const char *cadena)
 	return (a);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *lineas, char *buf)
 {
 	char	*str;
 	int		i;
 	int		cont;
 
-	if (!s1 || !s2)
+	if (!lineas || !buf)
 		return (0);
-	str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	str = (char *)malloc(ft_strlen(lineas) + ft_strlen(buf) + 1);
 	if (!str)
 		return (0);
 	i = 0;
-	while (s1[i] != '\0')
+	while (lineas[i] != '\0')
 	{
-		str[i] = s1[i];
+		str[i] = lineas[i];
 		i++;
 	}
 	cont = 0;
-	while (s2[cont] != '\0')
+	while (buf[cont] != '\0')
 	{
-		str[i] = s2[cont];
+		str[i] = buf[cont];
 		cont++;
 		i++;
 	}
@@ -80,7 +80,7 @@ char	*get_my_line(char *lineas, char *saved)
 	int		i;
 
 	i = 0;
-	pepe = malloc(sizeof(char) * BUFFER_SIZE);
+	pepe = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	while (lineas[i] != saved[0])
 	{
 		pepe[i] = lineas[i];
