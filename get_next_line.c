@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:53:32 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/25 18:43:01 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/25 19:03:07 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	*my_line(char **saved, int fd, char *buf)
 		return (0);
 	}
 	free(saved[fd]);
-	saved[fd] = rst;
+	saved[fd] = ft_strdup(rst);
+	free (rst);
 	return (line);
 }
 
@@ -98,7 +99,7 @@ char	*get_next_line(int fd)
 	buf = malloc(sizeof(char *) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (NULL);
-	if (fd < 1 || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1 || fd > 4096)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
 		return (NULL);
 	if (!saved[fd])
 		saved[fd] = ft_strdup(buf);
