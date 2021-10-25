@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:22:23 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/21 18:50:48 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:22:02 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 #  define BUFFER_SIZE 1
 # endif
 char	*ft_strdup(const char *s1);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*ft_strjoin(char *lineas, char *buf);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
 char	*get_next_line(int fd);
-char	*get_my_line(char *lienas, char *saved);
 size_t	ft_strlen(const char *cadena);
-char	*ft_strrchr(const char *s, int c);
-char	*ft_strchr(const char *s, int c);
+char	*my_line(char **saved, int fd, char *buf);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*join_modif(char **saved, int fd, ssize_t nr_bytes, char *buf);
 #endif

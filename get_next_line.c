@@ -6,90 +6,106 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:53:32 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/21 18:55:20 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:43:01 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_maldel(char *str)
+char	*ft_strdup(const char *s1)
 {
-	if (str != NULL)
-	{
-		free(str);
-		str = NULL;
-	}
+	char	*s_dup;
+
+	s_dup = (char *)malloc(ft_strlen(s1) + 1);
+	if (!s_dup)
+		return (0);
+	ft_memcpy(s_dup, s1, ft_strlen(s1) + 1);
+	return (s_dup);
 }
 
-char	*Super_get(int fd, char *lineas)
+char	*my_line(char **saved, int fd, char *buf)
 {
-	ssize_t	nr_bytes;
-	char	*buf;
-	char	*temp;
+	int		len;
+	char	*line;
+	char	*rst;
 
-	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (BUFFER_SIZE == 0 || fd < 0 || read(fd, buf, 0) == -1)
+	free(buf);
+	len = 0;
+	while (saved[fd][len] != '\n')
+		len++;
+	line = 0;
+	line = ft_substr(saved[fd], 0, len + 1);
+	rst = ft_strdup(&(saved[fd][len + 1]));
+	if (!rst)
 	{
-		free (buf);
-		free (lineas);
-		return (NULL);
+		free(line);
+		return (0);
 	}
-	nr_bytes = 1;
-	while (nr_bytes > 0 && ft_strrchr(lineas, '\n') == 0)
-	{
-		nr_bytes = read(fd, buf, BUFFER_SIZE);
-		buf[nr_bytes] = '\0';
-		temp = ft_strjoin(lineas, buf);
-		if (lineas[0] == '\0')
-			lineas = NULL;
-		free (lineas);
-		lineas = temp;
-	}
-	free (temp);
-	free (buf);
-	return (lineas);
+	free(saved[fd]);
+	saved[fd] = rst;
+	return (line);
 }
 
-char	*ft_saved(char *saved, char *lineas)
+char	*its_a_line(char **saved, int fd)
 {
-	if (ft_strchr(lineas, '\n') != 0)
+	int	len;
+
+	len = 0;
+	while (saved[fd][len] != '\0')
 	{
-		saved = ft_strchr(lineas, '\n');
-		return (saved);
-	}
-	if (ft_strchr(lineas, '\0') != 0)
-	{
-		saved = ft_strchr(lineas, '\0');
-		return (saved);
+		if (saved[fd][len] == '\n')
+			return ((char *)saved[fd]);
+		len++;
 	}
 	return (0);
 }
 
+char	*get_my_line(int fd, ssize_t nr_bytes, char **saved, char *buf)
+{
+	char	*hello;
+
+	hello = 0;
+	while (nr_bytes > 0)
+	{
+		if (its_a_line(saved, fd))
+			return (my_line(saved, fd, buf));
+		nr_bytes = read(fd, buf, BUFFER_SIZE);
+		buf[nr_bytes] = '\0';
+		if (its_a_line(saved, fd) == 0 && nr_bytes == 0)
+		{
+			hello = ft_strdup(saved[fd]);
+			if (&saved[fd] != NULL)
+			{
+				free(saved[fd]);
+				saved[fd] = NULL;
+			}
+			if (*hello)
+			{
+				return (hello);
+			}
+		}
+		saved[fd] = join_modif(saved, fd, nr_bytes, buf);
+	}
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {	
-	char				*lineas;
-	static char			*saved;
+	ssize_t				nr_bytes;
+	static char			*saved[4096];
+	char				*buf;
 
-	lineas = malloc(sizeof(char *) * BUFFER_SIZE + 1);
-	if (!lineas)
-	{
-		free (lineas);
-		return (0);
-	}
-	if (!saved)
-		saved = malloc(sizeof(char *));
-	if (!saved)
-	{
-		free (saved);
-		return (0);
-	}
-	lineas = saved + 1;
-	lineas = Super_get(fd, lineas);
-	if (lineas == NULL)
+	buf = malloc(sizeof(char *) * BUFFER_SIZE + 1);
+	if (!buf)
 		return (NULL);
-	saved = ft_saved(saved, lineas);
-	lineas = get_my_line(lineas, saved);
-	return (lineas);
+	if (fd < 1 || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1 || fd > 4096)
+		return (NULL);
+	if (!saved[fd])
+		saved[fd] = ft_strdup(buf);
+	if (!saved[fd])
+		return (NULL);
+	nr_bytes = BUFFER_SIZE;
+	return (get_my_line(fd, nr_bytes, saved, buf));
 }
 
 int	main(void)
@@ -99,17 +115,20 @@ int	main(void)
 
 	fd = open("/Users/jporta/Documents/getnext/hola.txt", O_RDONLY);
 	pepe = get_next_line(fd);
-	system("leaks a.out");
-	printf("primera :%s\n", pepe);
+	printf("primera :%s", pepe);
 	free (pepe);
-	/*pepe = get_next_line(fd);
-	printf("segunda :%s\n", pepe);
 	pepe = get_next_line(fd);
-	printf("tercera :%s\n", pepe);
+	printf("segunda :%s", pepe);
+	free (pepe);
 	pepe = get_next_line(fd);
-	printf("cuarta :%s\n", pepe);
+	printf("tercera :%s", pepe);
+	free (pepe);
 	pepe = get_next_line(fd);
-	printf("quinta :%s\n", pepe);*/
+	printf("cuarta :%s", pepe);
+	free (pepe);
+	pepe = get_next_line(fd);
+	printf("quinta :%s", pepe);
+	free (pepe);
 	close(fd);
 	return (0);
 }
