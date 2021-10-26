@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:49:33 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/26 16:19:09 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 17:30:48 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	its_a_line(char **saved, int fd)
 
 char	*get_my_line(int fd, ssize_t nr_bytes, char **saved, char *buf)
 {
-	 char	*hello;
+	char	*hello;
 
-	 hello = 0;
+	hello = 0;
 	while (nr_bytes > 0)
 	{
 		if (its_a_line(saved, fd))

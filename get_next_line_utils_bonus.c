@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:48:04 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/26 16:19:15 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 17:30:50 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	*join_modif(char **saved, int fd, ssize_t nr_bytes, char *buf)
 		if (saved[fd])
 		{
 			free(saved[fd]);
-			printf("final\n");
 			saved[fd] = NULL;
 		}
 	}
