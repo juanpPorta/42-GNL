@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:48:04 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/25 18:21:09 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 15:30:21 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*join_modif(char **saved, int fd, ssize_t nr_bytes, char *buf)
 	char	*temp;
 
 	temp = ft_strjoin(saved[fd], buf);
-	if (&saved[fd] != NULL)
+	if (saved[fd])
 	{
 		free(saved[fd]);
 		saved[fd] = NULL;
@@ -59,9 +59,11 @@ char	*join_modif(char **saved, int fd, ssize_t nr_bytes, char *buf)
 	saved[fd] = temp;
 	if (nr_bytes < 0)
 	{
-		if (&saved[fd] != NULL)
+		if (saved[fd])
 		{
 			free(saved[fd]);
+			printf("final\n");
+
 			saved[fd] = NULL;
 		}
 	}

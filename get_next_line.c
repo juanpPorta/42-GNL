@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:53:32 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/25 19:03:07 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 15:37:17 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,13 @@ char	*my_line(char **saved, int fd, char *buf)
 	line = 0;
 	line = ft_substr(saved[fd], 0, len + 1);
 	rst = ft_strdup(&(saved[fd][len + 1]));
-	if (!rst)
-	{
-		free(line);
-		return (0);
-	}
 	free(saved[fd]);
 	saved[fd] = ft_strdup(rst);
 	free (rst);
 	return (line);
 }
 
-char	*its_a_line(char **saved, int fd)
+int	its_a_line(char **saved, int fd)
 {
 	int	len;
 
@@ -55,7 +50,7 @@ char	*its_a_line(char **saved, int fd)
 	while (saved[fd][len] != '\0')
 	{
 		if (saved[fd][len] == '\n')
-			return ((char *)saved[fd]);
+			return (1);
 		len++;
 	}
 	return (0);
@@ -63,27 +58,29 @@ char	*its_a_line(char **saved, int fd)
 
 char	*get_my_line(int fd, ssize_t nr_bytes, char **saved, char *buf)
 {
-	char	*hello;
+	 char	*hello;
 
-	hello = 0;
+	 hello = 0;
 	while (nr_bytes > 0)
 	{
 		if (its_a_line(saved, fd))
+		{
 			return (my_line(saved, fd, buf));
+		}
 		nr_bytes = read(fd, buf, BUFFER_SIZE);
 		buf[nr_bytes] = '\0';
 		if (its_a_line(saved, fd) == 0 && nr_bytes == 0)
 		{
 			hello = ft_strdup(saved[fd]);
-			if (&saved[fd] != NULL)
+			free(saved[fd]);
+			saved[fd] = NULL;
+			free(buf);
+			if (ft_strlen(hello) == 0)
 			{
-				free(saved[fd]);
-				saved[fd] = NULL;
+				free(hello);
+				return (NULL);
 			}
-			if (*hello)
-			{
-				return (hello);
-			}
+			return (hello);
 		}
 		saved[fd] = join_modif(saved, fd, nr_bytes, buf);
 	}
@@ -100,7 +97,10 @@ char	*get_next_line(int fd)
 	if (!buf)
 		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
+	{
+		free (buf);
 		return (NULL);
+	}
 	if (!saved[fd])
 		saved[fd] = ft_strdup(buf);
 	if (!saved[fd])
@@ -109,7 +109,7 @@ char	*get_next_line(int fd)
 	return (get_my_line(fd, nr_bytes, saved, buf));
 }
 
-int	main(void)
+/* int	main(void)
 {
 	int		fd;
 	char	*pepe;
@@ -132,4 +132,4 @@ int	main(void)
 	free (pepe);
 	close(fd);
 	return (0);
-}
+} */
