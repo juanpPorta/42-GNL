@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 12:53:32 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/26 15:59:24 by jporta           ###   ########.fr       */
+/*   Created: 2021/10/26 15:49:33 by jporta            #+#    #+#             */
+/*   Updated: 2021/10/26 15:54:48 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -130,5 +130,4 @@ char	*get_next_line(int fd)
 	free (pepe);
 	close(fd);
 	return (0);
-}
- */
+} */
