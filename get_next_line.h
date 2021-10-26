@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:22:23 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/26 15:51:48 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 16:19:44 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ size_t	ft_strlen(const char *cadena);
 char	*my_line(char **saved, int fd, char *buf);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*join_modif(char **saved, int fd, ssize_t nr_bytes, char *buf);
+int		its_a_line(char **saved, int fd);
 #endif

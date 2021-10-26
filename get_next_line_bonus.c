@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:49:33 by jporta            #+#    #+#             */
-/*   Updated: 2021/10/26 15:54:48 by jporta           ###   ########.fr       */
+/*   Updated: 2021/10/26 16:19:09 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,34 +100,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	if (!saved[fd])
-		saved[fd] = ft_strdup(buf);
+		saved[fd] = malloc(sizeof(char *) * BUFFER_SIZE + 1);
 	if (!saved[fd])
 		return (NULL);
 	nr_bytes = BUFFER_SIZE;
 	return (get_my_line(fd, nr_bytes, saved, buf));
 }
-
-/* int	main(void)
-{
-	int		fd;
-	char	*pepe;
-
-	fd = open("/Users/jporta/Documents/getnext/hola.txt", O_RDONLY);
-	pepe = get_next_line(fd);
-	printf("primera :%s", pepe);
-	free (pepe);
-	pepe = get_next_line(fd);
-	printf("segunda :%s", pepe);
-	free (pepe);
-	pepe = get_next_line(fd);
-	printf("tercera :%s", pepe);
-	free (pepe);
-	pepe = get_next_line(fd);
-	printf("cuarta :%s", pepe);
-	free (pepe);
-	pepe = get_next_line(fd);
-	printf("quinta :%s", pepe);
-	free (pepe);
-	close(fd);
-	return (0);
-} */
